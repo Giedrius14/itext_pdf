@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>SpringMVC + Thymeleaf + Bootstrap 4 Table Example</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+	<style>
+		@page {
+			/* PDF settings */
+			margin-top: 3.3cm;
+			margin-left: 2cm;
+			margin-right: 2cm;
+			margin-bottom: 3.3cm;
+			/*size: A4;*/
+			size: 53.1in;/*A0 33.1in*/
+			/*portrait; landscape*/
+		}
+
+		#customTable {
+			/*max-width: 2480px;*/
+			width: 100%;
+		}
+
+	/*	#customTable td {
+			width: auto;
+			overflow: hidden;
+			word-wrap: break-word;
+			white-space: nowrap;
+		}
+
+		.customTable {
+			border: solid 1px #687979;
+			border-collapse: collapse;
+			border-spacing: 0;
+			font: normal 13px Arial, sans-serif;
+		}
+		.customTable thead th {
+			background-color: #DDEFEF;
+			border: solid 1px #687979;
+			color: #336B6B;
+			padding: 10px;
+			text-align: left;
+			text-shadow: 1px 1px 1px #fff;
+		}
+		.customTable tbody td {
+			border: solid 1px #687979;
+			color: #333;
+			padding: 10px;
+			text-shadow: 1px 1px 1px #fff;
+		}*/
+	</style>
+</head>
+
+<body>
+<div class="container">
+	<h1>Table</h1>
+	<div class="row col-md-7 table-responsive">
+		<table class="customTable">
+			<thead>
+			<tr class="headings">
+				<th th:each="header: ${headers}" class="column-title" th:text="${header}"></th>
+			</tr>
+			</thead>
+
+			<tbody>
+			<tr class="even pointer" th:each="row: ${rows}" id="tablerow">
+				<td th:each="header: ${headers}" th:text="${row.get(header)}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<h1>Table 2</h1>
+	<div class="row col-md-7 table-responsive">
+		<table class="table table-striped">
+			<thead>
+			<tr class="headings">
+				<th th:each="header: ${headers2}" class="column-title" th:text="${header}"></th>
+			</tr>
+			</thead>
+
+			<tbody>
+			<tr class="even pointer" th:each="row2: ${rows2}">
+				<td th:each="header,iter: ${headers2}"
+					th:utext="${row2.type == 'numberParagraph'}? ${row2.number}: ${row2.text}"></td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+</body>
+</html>

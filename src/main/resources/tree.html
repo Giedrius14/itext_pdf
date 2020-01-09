@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+<head>
+	<title>SpringMVC + Thymeleaf + Bootstrap 4 Table Example</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+	<!--	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
+	<style>
+		@page {
+			/* PDF settings */
+			margin-top: 3.3cm;
+			margin-left: 2cm;
+			margin-right: 2cm;
+			margin-bottom: 3.3cm;
+			size: A4;
+			/*size: 53.1in;!*A0 33.1in*!*/
+			/*portrait; landscape*/
+		}
+
+		#customerTable {
+			/*max-width: 2480px;*/
+			width: 100%;
+		}
+
+		#customerTable td {
+			width: auto;
+			overflow: hidden;
+			word-wrap: break-word;
+			white-space: nowrap;
+		}
+
+		OL {
+			counter-reset: item
+		}
+
+		LI {
+			display: block
+		}
+
+		LI:before {
+			content: counters(item, ".") " ";
+			counter-increment: item;
+		}
+	</style>
+</head>
+
+<body>
+
+<ol th:include="fragments.html::ListFragment"
+	 th:with="list =${listData}"
+>
+</ol>
+<!--<ol th:fragment="ListFragment">-->
+<!--		<li th:each="node : ${listData}">-->
+<!--			<p th:text="${node.description}"></p>-->
+<!--			<ol>-->
+<!--				<li th:each="child: ${node.children}">-->
+<!--					<p th:text="${child.description}"></p>-->
+<!--				</li>-->
+<!--			</ol>-->
+<!--		</li>-->
+<!--</ol>-->
+
+<!--
+<span th:fragment="contentB">
+      <span th:text="|value: ${strVar}|" />
+    </span>
+
+<p th:include="this :: contentB"
+   th:with="strVar = 'AAAAAAAAAAAAAAAAAAAAAAAAAAA'"></p>-->
+</body>
+</html>

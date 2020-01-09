@@ -1,0 +1,21 @@
+@font-face {
+	font-style:normal;
+	font-weight:normal;
+	font-family:"f2generic";
+	src:url(../fonts/f2generic.otf) format("opentype");
+}
+
+@font-face {
+	font-style:normal;
+	font-weight:normal;
+	font-family:"f0generic";
+	src:url(../fonts/f0generic.otf) format("opentype");
+}
+
+@font-face {
+	font-style:normal;
+	font-weight:normal;
+	font-family:"f1generic";
+	src:url(../fonts/f1generic.otf) format("opentype");
+}
+

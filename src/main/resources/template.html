@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>SpringMVC + Thymeleaf + Bootstrap 4 Table Example</title>
+	<meta charset="utf-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+<!--	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
+	<style>
+		@page {
+			/* PDF settings */
+			margin-top: 3.3cm;
+			margin-left: 2cm;
+			margin-right: 2cm;
+			margin-bottom: 3.3cm;
+			/*size: A4;*/
+			size: 53.1in;/*A0 33.1in*/ /*portrait; landscape*/
+		}
+		table {
+			-fs-table-paginate: paginate;
+			-fs-keep-with-inline: keep;
+		}
+		#customerTable{
+			/*max-width: 2480px;*/
+			width:100%;
+		}
+		#customerTable td{
+			width: auto;
+			overflow: hidden;
+			word-wrap: break-word;
+			white-space: nowrap;
+		}
+		/*thead {display: table-header-group;}*/
+		/*tfoot {display: table-header-group;}*/
+
+	</style>
+</head>
+
+<body>
+<div class="container">
+	<h1>Table</h1>
+	<div class="row col-md-7 table-responsive">
+		<table id="customerTable" class="table">
+			<thead>
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>Description</th>
+				<th>Capability Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Capability Covered By Operational Performer Count</th>
+				<th>Capability Covered By Operational Performer Percentage</th>
+				<th>Capability Covered By Operational Performer Average</th>
+				<th>Operational Activities With Relationship Count</th>
+				<th>Capability Covered By Operational Activity Count</th>
+				<th>Capability Covered By Operational Activity Percentage</th>
+				<th>Capability Covered By Operational Activity Average</th>
+
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+				<th>Operational Performer With Relationship Count</th>
+
+			</tr>
+			</thead>
+			<tbody>
+			<tr th:each="row, rowStat: ${listData}">
+				<td th:text="${rowStat.index}"></td>
+				<td th:text="${row.name}"></td>
+<!--				<td th:utext="${row.description}"></td>-->
+				<td th:utext="${row.description}"></td>
+				<td th:utext="${row.name}"></td>
+				<td th:utext="${row.name}"></td>
+				<td th:utext="${row.name}"></td>
+				<td th:utext="${row.name}"></td>
+				<td th:utext="${row.name}"></td>
+				<td th:utext="${row.name}"></td>
+				<td th:utext="${row.name}"></td>
+				<td th:utext="${row.name}"></td>
+				<td th:utext="${row.name}"></td>
+
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+				<td>100000000000</td>
+			</tr>
+			</tbody>
+		</table>
+
+<!--		<p th:utext="${diagram}"></p>-->
+		<img src="https://svgshare.com/i/H8a.svg" />
+		<img src="https://cdn.kramerav.com/web/images/diagrams/kramer_vp-428h2.jpg" />
+		<img src="https://www.loginvsi.com/documentation/images/6/6c/SWLA10.PNG"/>
+		<img src="https://journals.plos.org/plosone/article/figure/image?id=10.1371/journal.pone.0165906.g006&size=large" />
+
+
+	</div>
+</div>
+</body>
+</html>
