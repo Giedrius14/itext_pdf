@@ -26,6 +26,7 @@ import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import static com.itextpdf.text.pdf.BaseFont.EMBEDDED;
 import static com.itextpdf.text.pdf.BaseFont.IDENTITY_H;
@@ -67,7 +68,7 @@ public class ThymeleafApp
 			return render(TEMPLATE,list);
 		}).collect(Collectors.toList());
 
-		List<byte[]> temp = new ArrayList<>();
+	/*	List<byte[]> temp = new ArrayList<>();
 
 		Lists.partition(htmlList, 50).forEach(list -> {
 			try
@@ -81,8 +82,8 @@ public class ThymeleafApp
 			}
 
 		});
-
-		mergePdf(temp, new FileOutputStream("Merged_Views.pdf"));
+*/
+		mergePdf(htmlList, new FileOutputStream("Merged_Views.pdf"));
 		long finish = System.currentTimeMillis();
 		log.info("############### END FullDoc #####################");
 		log.info(getTimeElapsed(start, finish) + "min");
@@ -208,7 +209,8 @@ public class ThymeleafApp
 		//40000 = 30 min su html
 		// 50k    48 + 1min
 		// 300000k 7.2h
-		while (listData.size() < 20000)
+		// 1000 1:94
+		while (listData.size() < 1000)
 		{
 			listData.add(new TableDto("name", "paprastas textas"));
 			listData.add(new TableDto("name", HTML_CSS));
