@@ -1,6 +1,11 @@
 package com.example.itext_pdf.Thymeleaf_PDF;
 
+import com.google.common.collect.Lists;
+import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfCopy;
+import com.itextpdf.text.pdf.PdfReader;
+import com.itextpdf.text.pdf.PdfSmartCopy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.thymeleaf.TemplateEngine;
@@ -20,6 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.itextpdf.text.pdf.BaseFont.EMBEDDED;
 import static com.itextpdf.text.pdf.BaseFont.IDENTITY_H;
@@ -44,31 +50,96 @@ public class ThymeleafApp
 		file.getParentFile().mkdirs();
 		new ThymeleafApp().generatePdf();
 	}
+	private static final String TEMPLATE= "template";
 	private static final String OUTPUT_FILE = "testFree01.pdf";
 	private static final String UTF_8 = "UTF-8";
 
 	public void generatePdf() throws Exception {
-//		System.getProperties().setProperty("xr.util-logging.loggingEnabled", "true");
-//		XRLog.setLoggingEnabled(true);
-		ClassLoaderTemplateResolver templateResolver = getTemplateResolver();
-		TemplateEngine templateEngine = new TemplateEngine();
-		templateEngine.setTemplateResolver(templateResolver);
 
 		List<TableDto> listData = new ArrayList<>();
 		populateData(listData);
+		long start = System.currentTimeMillis();
 
-		Context context = new Context();
-		context.setVariable("listData", listData);
+//		List<List<byte[]>> subSet = Lists.partition(listData, 50);
+//		List<byte[]> htmlList = new ArrayList<>();
+		List<byte[]> htmlList = Lists.partition(listData, 1).parallelStream().map(list ->{
+//			htmlList.add(render(TEMPLATE,list));
+			return render(TEMPLATE,list);
+		}).collect(Collectors.toList());
 
-		// FlyingSaucer needs XHTML - not just normal HTML. To make our life
-		// easy, we use JTidy to convert the rendered Thymeleaf template to
-		// XHTML. Note that this might not work for very complicated HTML. But
-		// it's good enough for a simple letter.
-		String renderedHtmlContent = templateEngine.process("template", context);
-		ITextRenderer renderer = rendererActions(convertToXhtml(renderedHtmlContent));
-		createPdf(renderer);
+		List<byte[]> temp = new ArrayList<>();
+
+		Lists.partition(htmlList, 50).forEach(list -> {
+			try
+			{
+				ByteArrayOutputStream outputStream = (ByteArrayOutputStream) mergePdf(list, new ByteArrayOutputStream());
+				temp.add(outputStream.toByteArray());
+			}
+			catch(DocumentException | IOException e)
+			{
+				e.printStackTrace();
+			}
+
+		});
+
+		mergePdf(temp, new FileOutputStream("Merged_Views.pdf"));
+		long finish = System.currentTimeMillis();
+		log.info("############### END FullDoc #####################");
+		log.info(getTimeElapsed(start, finish) + "min");
+//
+	}
+	public OutputStream mergePdf(List<byte[]> listOfPdfFiles, OutputStream outputStream) throws DocumentException, IOException
+	{
+		log.info("############### MergePDF #########################");
+		long start = System.currentTimeMillis();
+
+		Document document = new Document();
+		PdfCopy copy = new PdfSmartCopy(document, outputStream);
+		document.open();
+		// Create reader list for the input pdf files.
+
+		listOfPdfFiles.forEach(pdf ->{
+			try
+			{
+				PdfReader reader = new PdfReader(pdf, null);
+				copy.addDocument(reader);
+				copy.freeReader(reader);
+				reader.close();
+			}
+			catch(IOException | DocumentException e)
+			{
+				e.printStackTrace();
+			}
+
+		});
+		document.close();
+
+		long finish = System.currentTimeMillis();
+		long timeElapsed = getTimeElapsed(start, finish);
+		log.info("############### MergePDF End #########################");
+		log.info(timeElapsed + "min");
+		return outputStream;
 	}
 
+	private byte[] render(String template, List<TableDto> list)
+	{
+		Context context = new Context();
+		context.setVariable("listData", list);
+		TemplateEngine templateEngine = new TemplateEngine();
+		templateEngine.setTemplateResolver(getTemplateResolver());
+		String renderedHtmlContent = templateEngine.process(template, context);
+		try
+		{
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			createPdf(rendererActions(convertToXhtml(renderedHtmlContent)), byteArrayOutputStream);
+			return byteArrayOutputStream.toByteArray();
+		}
+		catch(Exception e)
+		{
+			log.error(e.getMessage());
+		}
+		return null;
+	}
 	private ClassLoaderTemplateResolver getTemplateResolver()
 	{
 		ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
@@ -107,12 +178,11 @@ public class ThymeleafApp
 		return renderer;
 	}
 
-	private void createPdf(ITextRenderer renderer) throws DocumentException, IOException
+	private void createPdf(ITextRenderer renderer, OutputStream outputStream) throws DocumentException, IOException
 	{
 		log.info("############### CreatePDF #########################");
 		// And finally, we create the PDF:
 		long start =System.currentTimeMillis();
-		OutputStream outputStream = new FileOutputStream(OUTPUT_FILE);
 		renderer.createPDF(outputStream);
 		renderer.finishPDF();
 		outputStream.close();
@@ -137,7 +207,8 @@ public class ThymeleafApp
 		//20000 =   5 min su html  Memory increase
 		//40000 = 30 min su html
 		// 50k    48 + 1min
-		while (listData.size() < 200)
+		// 300000k 7.2h
+		while (listData.size() < 20000)
 		{
 			listData.add(new TableDto("name", "paprastas textas"));
 			listData.add(new TableDto("name", HTML_CSS));
@@ -161,7 +232,7 @@ public class ThymeleafApp
 		tidy.setEscapeCdata(true);
 		tidy.setHideComments(true);
 		tidy.setMakeBare(true);
-		tidy.setRawOut(true); //palikti uzkomentuota
+//		tidy.setRawOut(true); //palikti uzkomentuota
 //		tidy.setFixComments(true); palikti uzkomentuota
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		tidy.parseDOM(

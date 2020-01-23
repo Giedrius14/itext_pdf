@@ -21,18 +21,10 @@
 			/*size: 53.1in;!*A0 33.1in*!*/
 			/*portrait; landscape*/
 		}
-
-		#customerTable {
-			/*max-width: 2480px;*/
-			width: 100%;
-		}
-
-		#customerTable td {
-			width: auto;
-			overflow: hidden;
-			word-wrap: break-word;
-			white-space: nowrap;
-		}
+		table { page-break-inside:auto }
+		tr    { page-break-inside:avoid; page-break-after:auto }
+		thead { display:table-header-group }
+		tfoot { display:table-footer-group }
 
 		OL {
 			counter-reset: item
@@ -46,6 +38,20 @@
 			content: counters(item, ".") " ";
 			counter-increment: item;
 		}
+
+
+		#customerTable {
+			/*max-width: 2480px;*/
+			width: 100%;
+		}
+
+		#customerTable td {
+			width: auto;
+			overflow: hidden;
+			word-wrap: break-word;
+			white-space: nowrap;
+		}
+
 	</style>
 </head>
 

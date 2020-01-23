@@ -5,7 +5,7 @@
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
-<!--	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
+	<!--	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
 	<style>
 		@page {
 			/* PDF settings */
@@ -14,25 +14,55 @@
 			margin-right: 2cm;
 			margin-bottom: 3.3cm;
 			/*size: A4;*/
-			size: 53.1in;/*A0 33.1in*/ /*portrait; landscape*/
+			size: 53.1in;/*A0 33.1in*/
+			/*portrait; landscape*/
 		}
+
 		table {
 			-fs-table-paginate: paginate;
 			-fs-keep-with-inline: keep;
 		}
-		#customerTable{
-			/*max-width: 2480px;*/
-			width:100%;
+
+		table {
+			page-break-inside: auto
 		}
-		#customerTable td{
+
+		tr {
+			page-break-inside: avoid;
+			page-break-after: auto
+		}
+
+		thead {
+			display: table-header-group
+		}
+
+		tfoot {
+			display: table-footer-group
+		}
+
+		#customerTable {
+			/*max-width: 2480px;*/
+			width: 100%;
+		}
+
+		#customerTable td {
 			width: auto;
 			overflow: hidden;
 			word-wrap: break-word;
 			white-space: nowrap;
 		}
+
 		/*thead {display: table-header-group;}*/
 		/*tfoot {display: table-header-group;}*/
+		@media all {
+			/*.pagebreak { page-break-before: always; } !* page-break-after works, as well *!*/
+			.pagebreak {
+				page-break-after: always;
+				background-color: red;
+			}
 
+			/* page-break-after works, as well */
+		}
 	</style>
 </head>
 
@@ -80,7 +110,7 @@
 			<tr th:each="row, rowStat: ${listData}">
 				<td th:text="${rowStat.index}"></td>
 				<td th:text="${row.name}"></td>
-<!--				<td th:utext="${row.description}"></td>-->
+				<!--				<td th:utext="${row.description}"></td>-->
 				<td th:utext="${row.description}"></td>
 				<td th:utext="${row.name}"></td>
 				<td th:utext="${row.name}"></td>
@@ -112,13 +142,20 @@
 			</tr>
 			</tbody>
 		</table>
+		<div class="pagebreak">
+			<div>
+				<p>********************************</p>
+				<p>			PageBreak              </p>
+				<p>	********************************</p>
+			</div>
+		</div>
+		<!--		<p th:utext="${diagram}"></p>-->
+		<!--		<img src="https://svgshare.com/i/H8a.svg" />-->
+		<!--		<img src="https://cdn.kramerav.com/web/images/diagrams/kramer_vp-428h2.jpg" />-->
+		<!--		<img src="https://www.loginvsi.com/documentation/images/6/6c/SWLA10.PNG"/>-->
+		<!--		<img src="https://journals.plos.org/plosone/article/figure/image?id=10.1371/journal.pone.0165906.g006&size=large" />-->
 
-<!--		<p th:utext="${diagram}"></p>-->
-		<img src="https://svgshare.com/i/H8a.svg" />
-		<img src="https://cdn.kramerav.com/web/images/diagrams/kramer_vp-428h2.jpg" />
-		<img src="https://www.loginvsi.com/documentation/images/6/6c/SWLA10.PNG"/>
-		<img src="https://journals.plos.org/plosone/article/figure/image?id=10.1371/journal.pone.0165906.g006&size=large" />
-
+		<!--				<img src="https://webstockreview.net/images/small-house-png-2.png"/>-->
 
 	</div>
 </div>
