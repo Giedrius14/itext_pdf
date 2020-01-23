@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.concurrent.TimeUnit;
 
 import static com.itextpdf.text.pdf.BaseFont.EMBEDDED;
 import static com.itextpdf.text.pdf.BaseFont.IDENTITY_H;
@@ -115,9 +115,8 @@ public class ThymeleafApp
 		document.close();
 
 		long finish = System.currentTimeMillis();
-		long timeElapsed = getTimeElapsed(start, finish);
 		log.info("############### MergePDF End #########################");
-		log.info(timeElapsed + "min");
+		log.info(getTimeElapsed(start, finish));
 		return outputStream;
 	}
 
@@ -172,9 +171,8 @@ public class ThymeleafApp
 		renderer.setDocumentFromString(xHtml, null);
 		renderer.layout(); // TODO increase performance
 		long finish =System.currentTimeMillis();
-		long timeElapsed = getTimeElapsed(start, finish);
 		log.info("############### END RENDERING #####################");
-		log.info(timeElapsed + "min");
+		log.info(getTimeElapsed(start, finish));
 		return renderer;
 	}
 
@@ -187,14 +185,16 @@ public class ThymeleafApp
 		renderer.finishPDF();
 		outputStream.close();
 		long finish =System.currentTimeMillis();
-		long timeElapsed = getTimeElapsed(start, finish);
 		log.info("############### END CreatePDF #####################");
-		log.info(timeElapsed + "min");
+		log.info(getTimeElapsed(start, finish));
 	}
 
-	private long getTimeElapsed(long start, long finish)
+	private String getTimeElapsed(long start, long finish)
 	{
-		return ((finish - start) / 1000) / 60;
+		long ms = finish - start;
+		long minutes = TimeUnit.MILLISECONDS.toMinutes(ms);
+		long seconds = TimeUnit.MILLISECONDS.toSeconds(ms);
+		return String.format("min: %d:%d", minutes, seconds);
 	}
 
 	private void populateData(List<TableDto> listData)
