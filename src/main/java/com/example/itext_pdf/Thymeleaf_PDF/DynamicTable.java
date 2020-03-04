@@ -104,7 +104,7 @@ public class DynamicTable
 		ITextRenderer renderer = new ITextRenderer();
 		renderer.getFontResolver().addFont("Code39.ttf", IDENTITY_H, EMBEDDED);
 		SharedContext sharedContext = renderer.getSharedContext();
-		sharedContext.setReplacedElementFactory(new B64ImgReplacedElementFactory());
+//		sharedContext.setReplacedElementFactory(new B64ImgReplacedElementFactory());
 		sharedContext.getTextRenderer().setSmoothingThreshold(0);
 		// FlyingSaucer has a working directory. If you run this test, the working directory
 		// will be the root folder of your project. However, all files (HTML, CSS, etc.) are
@@ -158,7 +158,7 @@ public class DynamicTable
 		//20000 = 7-8 min su html
 		//20000 =   5 min su html  Memory increase
 		//40000 = 30 min su html
-		while (listData.size() < 100)
+		while (listData.size() < 20000)
 		{
 			listData.add(new TableDto("name", "paprastas textas"));
 			listData.add(new TableDto("name", HTML_CSS));
