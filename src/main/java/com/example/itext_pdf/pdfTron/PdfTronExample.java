@@ -94,16 +94,21 @@ public class PdfTronExample
 			PDFDoc doc = new PDFDoc();
 //			Optimizer.optimize(doc);
 
+//			Convert.SVGOutputOptions svgOutputOptions = new Convert.SVGOutputOptions();
+//			svgOutputOptions.setIndividualCharPlacement(true);
+//			svgOutputOptions.setFlattenContent(0);
 			HTML2PDF converter = new HTML2PDF();
+
 //			converter.setImageDPI(25);
 
 			// Our HTML data
-//			HTML2PDF.WebPageSettings settings = new HTML2PDF.WebPageSettings();
+			HTML2PDF.WebPageSettings settings = new HTML2PDF.WebPageSettings();
 //			settings.setLoadImages(true);
 //			settings.setIncludeInOutline(false);
 //			settings.setPrintBackground(false);
-//			settings.setLoadErrorHandling(HTML2PDF.WebPageSettings.e_ignore);
-			converter.insertFromHtmlString(renderedHtmlContent);//convertToXhtml(renderedHtmlContent));
+			settings.setLoadErrorHandling(HTML2PDF.WebPageSettings.e_ignore);
+
+			converter.insertFromHtmlString(convertToXhtml(renderedHtmlContent)); //convertToXhtml(renderedHtmlContent));
 			if (converter.convert(doc))
 			{
 
@@ -113,7 +118,7 @@ public class PdfTronExample
 				System.out.println("Conversion failed. HTTP Code: " + converter.getHTTPErrorCode() + "\n" + converter.getLog());
 			}
 			doc.close();
-		} catch (PDFNetException e) {
+		} catch (PDFNetException | IOException e) {
 			System.out.println(e);
 			e.getStackTrace();
 		}
@@ -135,7 +140,7 @@ public class PdfTronExample
 		return templateResolver;
 	}
 
-	private void populateData(List<TableDto> listData)
+	public static void populateData(List<TableDto> listData)
 	{
 		log.info("############### POPULATE #########################");
 

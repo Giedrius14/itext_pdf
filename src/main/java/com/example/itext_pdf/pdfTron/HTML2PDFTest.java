@@ -1,8 +1,18 @@
 package com.example.itext_pdf.pdfTron;
 
+import com.example.itext_pdf.Thymeleaf_PDF.TableDto;
+import com.pdftron.pdf.HTML2PDF;
+import com.pdftron.pdf.PDFDoc;
+import com.pdftron.pdf.PDFNet;
+import com.pdftron.sdf.SDFDoc;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
-import com.pdftron.pdf.*;
-import com.pdftron.sdf.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.example.itext_pdf.Aspose.AsposeExample.getTemplateResolver;
 
 public class HTML2PDFTest {
 	//---------------------------------------------------------------------------------------
@@ -21,7 +31,7 @@ public class HTML2PDFTest {
 	// - Optionally configure the PDF output, including page size, margins, orientation, and more.
 	// - Optionally add table of contents, including setting the depth and appearance.
 	//---------------------------------------------------------------------------------------
-	public static final String DIAGRAM2 = "<html> <head> <style>p {padding:0px; margin:0px; color:blue} </style> </head> <body><p> <img src=\"https://support.content.office.net/en-us/media/3ac1da3e-ab76-41a8-85ba-5e48752138db.png\" /></p></body></html>";
+//	public static final String DIAGRAM2 = "<html> <head> <style>p {padding:0px; margin:0px; color:blue} </style> </head> <body><p> <img src=\"https://support.content.office.net/en-us/media/3ac1da3e-ab76-41a8-85ba-5e48752138db.png\" /></p></body></html>";
 
 	public static void main(String[] args) {
 		String output_path = "./html2pdf_example";
@@ -139,6 +149,20 @@ public class HTML2PDFTest {
 		//--------------------------------------------------------------------------------
 		// Example 4) Convert HTML string to PDF.
 
+
+		ClassLoaderTemplateResolver templateResolver = getTemplateResolver();
+		TemplateEngine templateEngine = new TemplateEngine();
+		templateEngine.setTemplateResolver(templateResolver);
+
+		List<TableDto> listData = new ArrayList<>();
+//		populateData(listData);
+
+		Context context = new Context();
+		context.setVariable("listData", listData);
+
+//		log.info("############### RENDERING #########################");
+//		long start =System.currentTimeMillis();
+		String renderedHtmlContent = templateEngine.process("template", context);
 		try {
 			PDFDoc doc = new PDFDoc();
 
@@ -148,7 +172,7 @@ public class HTML2PDFTest {
 			String html = "<html><body><h1>Heading</h1><p>Paragraph.</p></body></html>";
 
 			// Add html data
-			converter.insertFromHtmlString(DIAGRAM2);
+			converter.insertFromHtmlString(renderedHtmlContent);
 			// Note, InsertFromHtmlString can be mixed with the other Insert methods.
 
 			if (converter.convert(doc))

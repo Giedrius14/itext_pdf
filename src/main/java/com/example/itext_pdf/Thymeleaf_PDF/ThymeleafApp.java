@@ -1,3 +1,4 @@
+/*
 package com.example.itext_pdf.Thymeleaf_PDF;
 
 import com.google.common.collect.Lists;
@@ -78,12 +79,15 @@ public class ThymeleafApp
 //			htmlList.add(render(TEMPLATE,list));
 			return render(TEMPLATE, list.get(0));
 		}).collect(Collectors.toList());
+*/
 /*		List<byte[]> htmlList = Lists.partition(listData, batchSize).parallelStream().map(list -> {
 //			htmlList.add(render(TEMPLATE,list));
 			return render(TEMPLATE, list);
-		}).collect(Collectors.toList());*/
+		}).collect(Collectors.toList());*//*
+
 
 //		List<byte[]> temp = new ArrayList<>();
+*/
 /*
 		List<byte[]> temp = Lists.partition(htmlList, 50).parallelStream().map(list -> {
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -97,7 +101,8 @@ public class ThymeleafApp
 				e.printStackTrace();
 			}
 			return outputStream.toByteArray();
-		}).collect(Collectors.toList());*/
+		}).collect(Collectors.toList());*//*
+
 		mergePdf(htmlList, new FileOutputStream("Merged_Views.pdf"));
 		long finish = System.currentTimeMillis();
 		log.info("############### END FullDoc #####################");
@@ -264,8 +269,11 @@ public class ThymeleafApp
 				outputStream
 		);
 		return outputStream.toString(StandardCharsets.UTF_8);
+*/
 /*		Files.writeString(Paths.get("output.txt"), html);
 
-		return result;*/
+		return result;*//*
+
 	}
 }
+*/

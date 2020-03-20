@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @Slf4j
 @SpringBootApplication
-public class AsposeExample2
+public class AsposeExample4
 {
 	public static void main(String[] args)
 	{
@@ -18,7 +18,8 @@ public class AsposeExample2
 		//String file = "diagramSVG.html";
 //		String file = "Periodic_table_large.svg";
 		com.aspose.pdf.LoadOptions options = new com.aspose.pdf.SvgLoadOptions();
-		com.aspose.pdf.Document doc = new Document(file, options);
+		Document doc = new Document(file, options);
 		doc.save("AsposeSVG.pdf");
 	}
+
 }
