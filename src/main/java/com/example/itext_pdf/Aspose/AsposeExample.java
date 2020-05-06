@@ -2,7 +2,7 @@ package com.example.itext_pdf.Aspose;
 
 import com.aspose.pdf.Document;
 import com.aspose.pdf.HtmlLoadOptions;
-import com.aspose.pdf.Page;
+import com.aspose.pdf.License;
 import com.example.itext_pdf.Thymeleaf_PDF.TableDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -62,9 +62,22 @@ public class AsposeExample
 	{
 		new AsposeExample().generatePdf();
 	}
-
+	private void loadAsposeLicense()
+	{
+		InputStream licenseStream = getClass().getClassLoader().getResourceAsStream("Aspose.Pdf.lic");
+		try(licenseStream)
+		{
+			License license = new License();
+			license.setLicense(licenseStream);
+		}
+		catch(Exception e)
+		{
+//			LOGGER.error("Aspose license not found: "+e.getMessage());
+		}
+	}
 	private void generatePdf() throws IOException
 	{
+		loadAsposeLicense();
 		ClassLoaderTemplateResolver templateResolver = getTemplateResolver();
 		TemplateEngine templateEngine = new TemplateEngine();
 		templateEngine.setTemplateResolver(templateResolver);
@@ -85,11 +98,9 @@ public class AsposeExample
 
 		HtmlLoadOptions options = new HtmlLoadOptions();
 		com.aspose.pdf.Document doc = new Document(targetStream,options);
-		Page page = doc.getPages().add();
-//		HtmlFragment htmlFragment = new HtmlFragment(renderedHtmlContent);
-//		page.getParagraphs().add(htmlFragment);
+		doc.getPages().add();
 		doc.setIgnoreCorruptedObjects(true);
-		doc.setFitWindow(true);
+//		doc.setFitWindow(true);
 		doc.setLayersAdded(true);
 		doc.save("HTMLStringUsingDOM.pdf");
 
@@ -124,8 +135,8 @@ public class AsposeExample
 
 	private void populateData(List<TableDto> listData)
 	{
-		while (listData.size() < 1)
-		{
+//		while (listData.size() < 1)
+//		{
 			listData.add(new TableDto("name", "paprastas textas"));
 			listData.add(new TableDto("name", HTML_CSS));
 			listData.add(new TableDto("PNG", PNG));
@@ -135,7 +146,7 @@ public class AsposeExample
 			listData.add(new TableDto("iFrame_SVG", iFrame_SVG));
 			listData.add(new TableDto("object_SVG2", object_SVG2));
 			listData.add(new TableDto("embed_SVG3", embed_SVG3));
-		}
+//		}
 	}
 	private long getTimeElapsed(long start, long finish)
 	{

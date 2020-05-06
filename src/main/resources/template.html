@@ -4,7 +4,7 @@
 	<title>SpringMVC + Thymeleaf + Bootstrap 4 Table Example</title>
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1"/>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+<!--	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>-->
 	<!--	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>-->
 	<style>
 		@page {
@@ -21,10 +21,8 @@
 		table {
 			-fs-table-paginate: paginate;
 			-fs-keep-with-inline: keep;
-		}
-
-		table {
-			page-break-inside: auto
+			page-break-inside: auto;
+			width: 3cm !important;
 		}
 
 		tr {
@@ -42,7 +40,7 @@
 
 		#customerTable {
 			/*max-width: 2480px;*/
-			width: 80%;
+			width: 100%;
 		}
 
 		#customerTable td {
@@ -64,81 +62,86 @@
 			/* page-break-after works, as well */
 		}
 	</style>
+
+
 </head>
 
 <body>
+
+<p th:text="${sectionCountLimit}"></p>
+<div class="footer" th:text="${'Report is limited to '+ sectionCountLimit +' sections'}">
+</div>
 <div class="container">
 	<h1>Table</h1>
 	<div class="row col-md-7 table-responsive">
 		<table id="customerTable" class="table">
 			<thead>
 			<tr>
-				<th>#</th>
-				<th>Name</th>
-				<th>Description</th>
-				<th>Capability Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Capability Covered By Operational Performer Count</th>
-				<th>Capability Covered By Operational Performer Percentage</th>
-				<th>Capability Covered By Operational Performer Average</th>
-				<th>Operational Activities With Relationship Count</th>
-				<th>Capability Covered By Operational Activity Count</th>
-				<th>Capability Covered By Operational Activity Percentage</th>
-				<th>Capability Covered By Operational Activity Average</th>
-
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
-				<th>Operational Performer With Relationship Count</th>
+				<th width="1cm">#</th>
+				<th width="1cm">Name</th>
+				<th width="1cm">Description</th>
+				<th width="1cm">Capability Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Capability Covered By Operational Performer Count</th>
+				<th width="1cm">Capability Covered By Operational Performer Percentage</th>
+				<th width="1cm">Capability Covered By Operational Performer Average</th>
+				<th width="1cm">Operational Activities With Relationship Count</th>
+				<th width="1cm">Capability Covered By Operational Activity Count</th>
+				<th width="1cm">Capability Covered By Operational Activity Percentage</th>
+				<th width="1cm">Capability Covered By Operational Activity Average</th>cm
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
+				<th width="1cm">Operational Performer With Relationship Count</th>
 
 			</tr>
 			</thead>
 			<tbody>
 			<tr th:each="row, rowStat: ${listData}">
-				<td th:text="${rowStat.index}"></td>
-				<td th:text="${row.name}"></td>
-				<!--				<td th:utext="${row.description}"></td>-->
-				<td th:utext="${row.description}"></td>
-				<td th:utext="${row.name}"></td>
-				<td th:utext="${row.name}"></td>
-				<td th:utext="${row.name}"></td>
-				<td th:utext="${row.name}"></td>
-				<td th:utext="${row.name}"></td>
-				<td th:utext="${row.name}"></td>
-				<td th:utext="${row.name}"></td>
-				<td th:utext="${row.name}"></td>
-				<td th:utext="${row.name}"></td>
+				<td width="1cm" th:text="${rowStat.index}"></td>
+				<td width="1cm" th:text="${row.name}"></td>
+<!--				<td th:utext="${row.description}"></td>-->
+				<td width="1cm" th:utext="${row.description}"></td>
+				<td width="1cm" th:utext="${row.name}"></td>
+				<td width="1cm" th:utext="${row.name}"></td>
+				<td width="1cm" th:utext="${row.name}"></td>
+				<td width="1cm" th:utext="${row.name}"></td>
+				<td width="1cm" th:utext="${row.name}"></td>
+				<td width="1cm" th:utext="${row.name}"></td>
+				<td width="1cm" th:utext="${row.name}"></td>
+				<td width="1cm" th:utext="${row.name}"></td>
+				<td width="1cm" th:utext="${row.name}"></td>
 
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
-				<td>100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
+				<td width="1cm">100000000000</td>
 			</tr>
 			</tbody>
 		</table>
