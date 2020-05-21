@@ -6,8 +6,6 @@ import com.aspose.pdf.HorizontalAlignment;
 import com.aspose.pdf.License;
 import com.aspose.pdf.Page;
 import com.aspose.pdf.PageSize;
-import com.aspose.pdf.Rectangle;
-import com.aspose.pdf.Rotation;
 import com.aspose.pdf.TextFragmentAbsorber;
 import com.aspose.pdf.TextSegment;
 import com.aspose.pdf.TextStamp;
@@ -115,45 +113,46 @@ public class TableOfContents
 			Page page = document.getPages().get_Item(i);
 			float pageWidth = (float)page.getRect().getWidth();
 			float pageHeight = (float)page.getRect().getHeight();
-			PageSize pageLetter = PageSize.getPageLetter();
+			PageSize pageSize = PageSize.getA4();//getPageLetter();
 
-			if (pageWidth == pageLetter.getWidth() && pageHeight == pageLetter.getHeight())
+			if (pageWidth == pageSize.getWidth() && pageHeight == pageSize.getHeight())
 				continue;
-			float wScale = pageLetter.getWidth() / pageWidth;
-			float hScale = pageLetter.getHeight() / pageHeight;
+			float wScale = pageSize.getWidth() / pageWidth;
+			float hScale = pageSize.getHeight() / pageHeight;
 //			scale = new float[] { 1f, wScale, hScale };// .Min();
 			Float scale = Collections.min(Arrays.asList(1f, wScale, hScale));
 
 			pdfPageEditor.setProcessPages(new int[]{i});
-			pdfPageEditor.setPageSize(pageLetter);
+			pdfPageEditor.setPageSize(pageSize);
 			pdfPageEditor.setVerticalAlignmentType(VerticalAlignment.Top);
 			pdfPageEditor.setHorizontalAlignment(HorizontalAlignment.Left);
 			pdfPageEditor.setZoom(scale);
-			document.getPages().get_Item(i).setRotate(Rotation.on90);
+//			document.getPages().get_Item(i).setRotate(Rotation.on90);
 			pdfPageEditor.applyChanges();
 		}
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		pdfPageEditor.save(stream);
 		Document doc = new Document(new ByteArrayInputStream(stream.toByteArray()));
 
-		for (Page page : doc.getPages())
-		{
-			Rectangle r = page.getMediaBox();
-			double newHeight = r.getWidth();
-			double newWidth = r.getHeight();
-			double newLLX = r.getLLX();
-			//  We must to move page upper in order to compensate changing page size
-			// (lower edge of the page is 0,0 and information is usually placed from the
-			//  Top of the page. That's why we move lover edge upper on difference between
-			//  Old and new height.
-			double newLLY = r.getLLY() + (r.getHeight() - newHeight);
-			page.setMediaBox(new Rectangle(newLLX, newLLY, newLLX + newWidth, newLLY + newHeight));
-			// Sometimes we also need to set CropBox (if it was set in original file)
-			page.setCropBox(new Rectangle(newLLX, newLLY, newLLX + newWidth, newLLY + newHeight));
-
-			// Setting Rotation angle of page
-			//page.Rotate = Rotation.on90;
-		}
+		//todo code for using with rotation
+//		for (Page page : doc.getPages())
+//		{
+//			Rectangle r = page.getMediaBox();
+//			double newHeight = r.getWidth();
+//			double newWidth = r.getHeight();
+//			double newLLX = r.getLLX();
+//			//  We must to move page upper in order to compensate changing page size
+//			// (lower edge of the page is 0,0 and information is usually placed from the
+//			//  Top of the page. That's why we move lover edge upper on difference between
+//			//  Old and new height.
+//			double newLLY = r.getLLY() + (r.getHeight() - newHeight);
+//			page.setMediaBox(new Rectangle(newLLX, newLLY, newLLX + newWidth, newLLY + newHeight));
+//			// Sometimes we also need to set CropBox (if it was set in original file)
+//			page.setCropBox(new Rectangle(newLLX, newLLY, newLLX + newWidth, newLLY + newHeight));
+//
+//			// Setting Rotation angle of page
+//			//page.Rotate = Rotation.on90;
+//		}
 		return doc;
 	}
 
